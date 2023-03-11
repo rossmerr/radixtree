@@ -51,19 +51,19 @@ func (r *Tree) Insert(x string) {
 	length := len(x)
 	for traverseNode != nil && !traverseNode.isLeaf() && elementsFound < len(x) {
 		var nextEdge *Tree
-		end := len(x[:elementsFound])
-		for _, edge := range traverseNode.edges {
-			for i := length; i > end; i-- {
-				suffix = x[elementsFound:i]
+		for i := length; i > len(x[:elementsFound]); i-- {
+			suffix = x[elementsFound:i]
+			for _, edge := range traverseNode.edges {
 				if strings.HasPrefix(edge.label, suffix) {
 					// when a edge need to be split
 					if len(edge.label) > len(suffix) {
 						traverseNode = edge
 						elementsFound += len(suffix)
-
+						i = 0
 						break
 					}
 					nextEdge = edge
+					i = 0
 					break
 				}
 			}
@@ -71,20 +71,18 @@ func (r *Tree) Insert(x string) {
 
 		if nextEdge != nil {
 			traverseNode = nextEdge
-
 			elementsFound += len(suffix)
 		} else {
 			break
 		}
-
 	}
 
 	if elementsFound == 0 {
 		newLabel := x[elementsFound:]
 		newChild1 := &Tree{label: newLabel}
-
 		traverseNode.edges = append(traverseNode.edges, newChild1)
 	} else {
+		// split the edge
 		newLabel := traverseNode.label[:len(suffix)]
 		oldLabel1 := traverseNode.label[len(newLabel):]
 		oldLabel2 := x[elementsFound:]
