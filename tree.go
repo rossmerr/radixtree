@@ -54,12 +54,10 @@ func (r *Tree) Delete(x string) bool {
 
 func (r *Tree) HasPrefix(x string) []string {
 	node, _, _, _ := r.query(x)
-
 	return hasPrefix(x, node)
 }
 
 func hasPrefix(prefix string, node *Tree) []string {
-
 	results := []string{}
 	if len(node.edges) > 0 {
 		for _, edge := range node.edges {
