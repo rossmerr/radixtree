@@ -18,12 +18,12 @@ func (r *Tree) isLeaf() bool {
 }
 
 func (r *Tree) Lookup(x string) bool {
-	node, offset, _ := r.query(x)
+	node, _, offset, _ := r.query(x)
 	return (node != nil && node.isLeaf() && offset == len(x))
 }
 
 func (r *Tree) Insert(x string) {
-	node, offset, suffix := r.query(x)
+	node, _, offset, suffix := r.query(x)
 
 	if offset == 0 {
 		// add to node
@@ -40,10 +40,43 @@ func (r *Tree) Insert(x string) {
 	}
 }
 
-func (r *Tree) query(x string) (node *Tree, offset int, suffix string) {
+func (r *Tree) Delete(x string) bool {
+	node, parent, _, _ := r.query(x)
+	for i, edge := range parent.edges {
+		if edge == node {
+			parent.edges = append(parent.edges[:i], parent.edges[i+1:]...)
+			return true
+		}
+	}
+
+	return false
+}
+
+func (r *Tree) HasPrefix(x string) []string {
+	node, _, _, _ := r.query(x)
+
+	return hasPrefix(x, node)
+}
+
+func hasPrefix(prefix string, node *Tree) []string {
+
+	results := []string{}
+	if len(node.edges) > 0 {
+		for _, edge := range node.edges {
+			results = append(results, hasPrefix(prefix+edge.label, edge)...)
+		}
+	} else {
+		results = append(results, prefix)
+	}
+
+	return results
+}
+
+func (r *Tree) query(x string) (node, parent *Tree, offset int, suffix string) {
 	node = r
 	length := len(x)
 	for node != nil && !node.isLeaf() && offset < len(x) {
+		parent = node
 		for i := length; i > len(x[:offset]); i-- {
 			suffix = x[offset:i]
 			for _, edge := range node.edges {
