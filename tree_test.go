@@ -133,3 +133,47 @@ func TestNewTree(t *testing.T) {
 		})
 	}
 }
+
+func TestTree_Lookup(t *testing.T) {
+	tests := []struct {
+		name   string
+		labels []string
+	}{
+		{
+			name: "tree",
+			labels: []string{
+				"PLAN",
+				"PLAY",
+				"POLL",
+				"POST",
+			},
+		},
+		{
+			name: "tree",
+			labels: []string{
+				"romane",
+				"romanus",
+				"romulus",
+				"rubens",
+				"ruber",
+				"rubicon",
+				"rubicundus",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := NewRadixTree()
+			for _, label := range tt.labels {
+				got.Insert(label)
+			}
+			for _, label := range tt.labels {
+				got := got.Lookup(label)
+				if !got {
+					t.Errorf("Tree.Lookup(%v) = %v, want %v", label, got, true)
+				}
+			}
+
+		})
+	}
+}
