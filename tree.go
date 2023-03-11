@@ -32,15 +32,11 @@ func (r *Tree) Insert(x string) {
 		node.edges = append(node.edges, newChild1)
 	} else {
 		// split the edge
-		newLabel := node.label[:len(suffix)]
-		oldLabel1 := node.label[len(newLabel):]
-		oldLabel2 := x[offset:]
-
-		newChild1 := &Tree{label: oldLabel1, edges: node.edges}
-		newChild2 := &Tree{label: oldLabel2}
-
-		node.label = newLabel
-		node.edges = []*Tree{newChild1, newChild2}
+		newParent := node.label[:len(suffix)]
+		oldEdgeLabel := node.label[len(newParent):]
+		newEdgeLabel := x[offset:]
+		node.label = node.label[:len(suffix)]
+		node.edges = []*Tree{{label: oldEdgeLabel, edges: node.edges}, {label: newEdgeLabel}}
 	}
 }
 
