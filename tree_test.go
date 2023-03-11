@@ -11,19 +11,6 @@ func TestNewTree(t *testing.T) {
 		labels []string
 		want   *Tree
 	}{
-		// {
-		// 	name: "tree",
-		// 	labels: []string{
-		// 		"romane",
-		// 		"romanus",
-		// 		"romulus",
-		// 		"rubens",
-		// 		"ruber",
-		// 		"rubicon",
-		// 		"rubicundus",
-		// 	},
-		// 	want: &Tree{},
-		// },
 		{
 			name: "tree",
 			labels: []string{
@@ -57,6 +44,74 @@ func TestNewTree(t *testing.T) {
 									},
 									&Tree{
 										label: "ST",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "tree",
+			labels: []string{
+				"romane",
+				"romanus",
+				"romulus",
+				"rubens",
+				"ruber",
+				"rubicon",
+				"rubicundus",
+			},
+			want: &Tree{
+				label: "",
+				edges: []*Tree{
+					&Tree{
+						label: "r",
+						edges: []*Tree{
+							&Tree{
+								label: "om",
+								edges: []*Tree{
+									&Tree{
+										label: "an",
+										edges: []*Tree{
+											&Tree{
+												label: "e",
+											},
+											&Tree{
+												label: "us",
+											},
+										},
+									},
+									&Tree{
+										label: "ulus",
+									},
+								},
+							},
+							&Tree{
+								label: "ub",
+								edges: []*Tree{
+									&Tree{
+										label: "e",
+										edges: []*Tree{
+											&Tree{
+												label: "ns",
+											},
+											&Tree{
+												label: "r",
+											},
+										},
+									},
+									&Tree{
+										label: "ic",
+										edges: []*Tree{
+											&Tree{
+												label: "on",
+											},
+											&Tree{
+												label: "undus",
+											},
+										},
 									},
 								},
 							},
