@@ -178,7 +178,7 @@ func TestTree_Lookup(t *testing.T) {
 	}
 }
 
-func TestTree_Delete(t *testing.T) {
+func TestTree_Remove(t *testing.T) {
 
 	tests := []struct {
 		name   string
@@ -219,7 +219,7 @@ func TestTree_Delete(t *testing.T) {
 				tree.Insert(label)
 			}
 
-			got := tree.Delete(tt.delete)
+			got := tree.Remove(tt.delete)
 			if got != tt.want {
 				t.Errorf("Tree.Delete() = %v, want %v", got, tt.want)
 			}

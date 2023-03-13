@@ -40,7 +40,7 @@ func (r *Tree) Insert(x string) {
 	}
 }
 
-func (r *Tree) Delete(x string) bool {
+func (r *Tree) Remove(x string) bool {
 	node, parent, _, _ := r.query(x)
 	for i, edge := range parent.edges {
 		if edge == node {
